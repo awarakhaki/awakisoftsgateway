@@ -9,7 +9,7 @@ app = Flask(__name__)
 # This value is retrieved from the Vercel environment variables.
 # For security, you must set the PRIVATE_API_URL in your Vercel dashboard.
 # DO NOT hardcode your URL here.
-MAIN_API_URL = os.environ.get("https://awaki.top/awakisoftsgateway.php")
+MAIN_API_URL = os.environ.get("PRIVATE_API_URL")
 
 @app.route("/", defaults={"path": ""}, methods=["POST"])
 @app.route("/<path:path>", methods=["POST"])
@@ -52,4 +52,3 @@ def proxy(path):
     except Exception as e:
         # Catch any other unexpected errors.
         return jsonify({"error": f"An unexpected error occurred: {str(e)}"}), 500
-
