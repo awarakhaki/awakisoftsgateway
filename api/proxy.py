@@ -27,14 +27,17 @@ def proxy(path):
         return jsonify({"error": "Configuration error: Main API URL not set."}), 500
 
     try:
+        # Construct the full URL to forward the request to.
+        # This prevents an extra slash if the path is empty.
+        if path:
+            full_forward_url = f"{MAIN_API_URL}/{path}"
+        else:
+            full_forward_url = MAIN_API_URL
+
         # Get the JSON data from the incoming request.
         request_data = request.get_json(silent=True)
         if not request_data:
             return jsonify({"error": "No JSON data received."}), 400
-
-        # Construct the full URL to forward the request to.
-        # This appends any path parameters from the incoming request.
-        full_forward_url = f"{MAIN_API_URL}/{path}"
 
         # Forward the POST request to the main API.
         # The json parameter automatically handles sending the data as JSON.
